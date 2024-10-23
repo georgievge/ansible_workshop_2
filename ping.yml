@@ -1,0 +1,13 @@
+---	
+- name: Intro to Ansible Playbooks
+  hosts: all
+  gather_facts: yes
+
+  tasks:
+
+    - name: checks for connectivity
+      ping:
+
+    - name: debugs ansible_facts
+      ansible.builtin.debug:
+        var: ansible_facts

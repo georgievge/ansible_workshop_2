@@ -1,0 +1,13 @@
+---	
+- name: Intro to Ansible Playbooks
+  hosts: prod
+  gather_facts: yes
+  become: yes
+
+  tasks:
+
+    - name: Add user Mladen
+      ansible.builtin.user:
+        name: mladen
+        comment: team mate in roche
+        group: wheel

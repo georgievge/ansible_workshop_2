@@ -1,0 +1,19 @@
+---	
+- name: Reboots all servers
+  hosts: all
+  gather_facts: no
+  become: yes
+
+  tasks:
+
+    - name: check users online
+      ansible.builtin.shell: who | grep -v root
+      register: online_users
+      ignore_errors: true
+
+    - debug:
+        var: online_users.rc
+
+    - name: reboot machines when there are not users logged
+      ansible.builtin.reboot:
+      when: online_users.rc == 1
