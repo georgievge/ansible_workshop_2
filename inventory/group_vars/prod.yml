@@ -1,0 +1,14 @@
+server_group:
+      name: wheel
+      state: present
+      
+server_users:
+  - name: mladen
+    comment: "team mate in roche"
+    group: wheel
+  - name: georgi
+    comment: "team mate in roche"
+    group: wheel
+  - name: ivan
+    comment: "team mate in roche"
+    group: wheel

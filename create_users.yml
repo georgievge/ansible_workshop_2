@@ -1,13 +1,19 @@
 ---	
 - name: Intro to Ansible Playbooks
-  hosts: prod
-  gather_facts: yes
+  hosts: prod 
+  gather_facts: no
   become: yes
 
   tasks:
 
-    - name: Add user Mladen
+    - name: Ensure group "somegroup" exists
+      ansible.builtin.group:
+        name: "{{ server_group.name }}"
+        state: "{{ server_group.state }}"
+
+    - name: Add users
       ansible.builtin.user:
-        name: mladen
-        comment: team mate in roche
-        group: wheel
+        name: "{{ item.name}}"
+        comment: "{{ item.comment}}"
+        group: "{{ item.group}}"
+      loop: "{{ server_users }}"

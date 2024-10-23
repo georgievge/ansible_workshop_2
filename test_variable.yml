@@ -1,0 +1,10 @@
+---	
+- name: Reboots all servers
+  hosts: all
+  gather_facts: no
+  become: yes
+
+  tasks:
+
+    - debug:
+        var: server_users
