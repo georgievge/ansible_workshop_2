@@ -1,6 +1,6 @@
 ---	
 - name: Reboots all servers
-  hosts: group_ubuntu,group_rockylinux
+  hosts: group_rockylinux
   gather_facts: yes
   become: yes
 
@@ -13,11 +13,37 @@
       ansible.builtin.yum:
         name: httpd
         state: latest
+      register: redhat_output
       when: ansible_facts.os_family == "RedHat"
 
-    - name: Install apache httpd  (state=present is optional)
-      ansible.builtin.apt:
-        name: apache2
-        state: present
-        update_cache: yes
-      when: ansible_facts.os_family == "Debian"
+    # - name: Install apache httpd  (state=present is optional)
+    #   ansible.builtin.apt:
+    #     name: apache2
+    #     state: present
+    #     update_cache: yes
+    #   when: ansible_facts.os_family == "Debian"
+
+    - debug:
+        var: redhat_output.failed
+  
+
+    - name: Start service httpd, if not started
+      ansible.builtin.service:
+        name: httpd
+        state: started
+      when: redhat_output.failed == true
+
+  
+
+    - name: Start service httpd, if not started
+      ansible.builtin.service:
+        name: firewalld
+        state: stopped
+      when: redhat_output.failed == true
+
+
+
+
+
+
+  
